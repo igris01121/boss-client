@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkConnect - Connect Clients and Employers</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #3498db;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #c0392b;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .card-header {
+            padding: 1rem;
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .card-footer {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+            border-top: 1px solid #eee;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            border-color: #3498db;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sign In Page Styles */
+        .auth-container {
+            max-width: 500px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: #7f8c8d;
+        }
+
+        .auth-form .btn {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #7f8c8d;
+        }
+
+        .auth-footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-options {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .auth-option {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-option:hover {
+            background-color: #f5f5f5;
+            border-color: #3498db;
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: #7f8c8d;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+            flex: 1;
+            border-top: 1px solid #ddd;
+        }
+
+        .auth-divider span {
+            padding: 0 1rem;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 0.5rem;
+        }
+
+        .forgot-password a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .remember-me input {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        /* Modal Styles for Sign In */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .close-modal:hover {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav>
+            <div class="logo">WorkConnect</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#jobs">Find Jobs</a></li>
+                <li><a href="#talent">Find Talent</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#about">About Us</a></li>
+            </ul>
+            <div class="buttons">
+                <button class="btn btn-primary" id="sign-in-btn">Sign In</button>
+                <button class="btn btn-secondary" id="register-btn">Register</button>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Sign In Page -->
+    <div id="sign-in-page" style="display: none;">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to access your WorkConnect account</p>
+            </div>
+            
+            <div class="auth-options">
+                <div class="auth-option">
+                    <img src="/api/placeholder/20/20" alt="Google icon"> 
+                    Continue with Google
+                </div>
+                <div class="auth-option">
+                    <img src="/api/placeholder/20/20" alt="LinkedIn icon"> 
+                    Continue with LinkedIn
+                </div>
+            </div>
+            
+            <div class="auth-divider">
+                <span>or sign in with email</span>
+            </div>
+            
+            <form class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <div class="forgot-password">
+                        <a href="#">Forgot password?</a>
+                    </div>
+                </div>
+                
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me for 30 days</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="#" id="go-to-register">Register now</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="container">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Connect with the Perfect Match for Your Project</h1>
+                    <p>Whether you're looking for work or hiring talent, WorkConnect makes it easy to find the perfect match for your needs.</p>
+                    <div class="buttons">
+                        <button class="btn btn-primary">Post a Job</button>
+                        <button class="btn btn-secondary">Post Your Skills</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="/api/placeholder/500/300" alt="WorkConnect platform illustration">
+                </div>
+            </div>
+        </section>
+        
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>For Employers</h3>
+                    </div>
+                    <div class="card-body">
+                        <ol>
+                            <li>Create an account</li>
+                            <li>Post your job requirements</li>
+                            <li>Browse and select qualified candidates</li>
+                            <li>Communicate through our platform</li>
+                            <li>Hire the perfect match</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>For Professionals</h3>
+                    </div>
+                    <div class="card-body">
+                        <ol>
+                            <li>Create your profile</li>
+                            <li>Showcase your skills and experience</li>
+                            <li>Browse relevant job postings</li>
+                            <li>Apply to positions</li>
+                            <li>Get hired and start working</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Our Guarantee</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Secure payment protection</li>
+                            <li>Quality work guarantee</li>
+                            <li>24/7 customer support</li>
+                            <li>Dispute resolution</li>
+                            <li>Private messaging system</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Job Listings Section -->
+        <section id="jobs" class="container">
+            <h2 class="section-title">Featured Job Listings</h2>
+            <div class="tabs">
+                <div class="tab active">All Jobs</div>
+                <div class="tab">Remote</div>
+                <div class="tab">Full-time</div>
+                <div class="tab">Part-time</div>
+                <div class="tab">Contract</div>
+            </div>
+            
+            <div class="tab-content active">
+                <div class="cards" id="job-listings">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Web Developer</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Budget:</strong> $2000-$3000</p>
+                            <p><strong>Duration:</strong> 3 months</p>
+                            <p><strong>Skills:</strong> HTML, CSS, JavaScript, React</p>
+                            <p>Looking for an experienced web developer to create a responsive e-commerce website with modern design and secure payment integration.</p>
+                        </div>
+                        <div class="card-footer">
+                            <span>Posted 2 days ago</span>
+                            <button class="btn btn-primary">Apply Now</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Graphic Designer</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Budget:</strong> $1500-$2500</p>
+                            <p><strong>Duration:</strong> 2 months</p>
+                            <p><strong>Skills:</strong> Adobe Photoshop, Illustrator, UI/UX</p>
+                            <p>Need a creative graphic designer to design a brand identity including logo, business cards, and social media templates.</p>
+                        </div>
+                        <div class="card-footer">
+                            <span>Posted 5 days ago</span>
+                            <button class="btn btn-primary">Apply Now</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Content Writer</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Budget:</strong> $500-$1000</p>
+                            <p><strong>Duration:</strong> 1 month</p>
+                            <p><strong>Skills:</strong> SEO, Blog Writing, Research</p>
+                            <p>Seeking a talented content writer to create 10 SEO-optimized blog posts for a health and wellness website.</p>
+                        </div>
+                        <div class="card-footer">
+                            <span>Posted 1 week ago</span>
+                            <button class="btn btn-primary">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Talent Section -->
+        <section id="talent" class="container">
+            <h2 class="section-title">Top Professionals</h2>
+            <div class="tabs">
+                <div class="tab active">All Categories</div>
+                <div class="tab">Development</div>
+                <div class="tab">Design</div>
+                <div class="tab">Marketing</div>
+                <div class="tab">Writing</div>
+            </div>
+            
+            <div class="tab-content active">
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>John Doe</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Specialization:</strong> Full Stack Developer</p>
+                            <p><strong>Rate:</strong> $45/hour</p>
+                            <p><strong>Skills:</strong> React, Node.js, MongoDB, Express</p>
+                            <p>Experienced full stack developer with 5+ years of experience building scalable web applications.</p>
+                        </div>
+                        <div class="card-footer">
+                            <span>⭐⭐⭐⭐⭐ (4.9/5)</span>
+                            <button class="btn btn-primary">Contact</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Jane Smith</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Specialization:</strong> UI/UX Designer</p>
+                            <p><strong>Rate:</strong> $40/hour</p>
+                            <p><strong>Skills:</strong> Figma, Adobe XD, Sketch, User Research</p>
+                            <p>Creative UI/UX designer passionate about creating beautiful and functional user interfaces.</p>
+                        </div>
+                        <div class="card-footer">
+                            <span>⭐⭐⭐⭐⭐ (4.8/5)</span>
+                            <button class="btn btn-primary">Contact</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Michael Johnson</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Specialization:</strong> Digital Marketer</p>
+                            <p><strong>Rate:</strong> $35/hour</p>
+                            <p><strong>Skills:</strong> SEO, SEM, Social Media, Content Strategy</p>
+                            <p>Results-driven digital marketer with expertise in growing online presence and driving traffic.</p>
+                        </div>
+                        <div class="card-footer">
+                            <span>⭐⭐⭐⭐⭐ (4.7/5)</span>
+                            <button class="btn btn-primary">Contact</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Post Section -->
+        <section id="post" class="container">
+            <h2 class="section-title">What Are You Looking For?</h2>
+            <div class="tabs">
+                <div class="tab active">Post a Job</div>
+                <div class="tab">Post Your Skills</div>
+            </div>
+            
+            <div class="tab-content active">
+                <form>
+                    <div class="form-group">
+                        <label for="job-title">Job Title</label>
+                        <input type="text" id="job-title" placeholder="e.g. Web Developer Needed for E-commerce Site">
+                    </div>
+                    <div class="form-group">
+                        <label for="job-description">Job Description</label>
+                        <textarea id="job-description" rows="5" placeholder="Describe your project requirements in detail..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-skills">Required Skills (comma separated)</label>
+                        <input type="text" id="job-skills" placeholder="e.g. HTML, CSS, JavaScript, React">
+                    </div>
+                    <div class="form-group">
+                        <label for="job-budget">Budget Range</label>
+                        <select id="job-budget">
+                            <option>Select Budget Range</option>
+                            <option>$500 - $1,000</option>
+                            <option>$1,000 - $2,500</option>
+                            <option>$2,500 - $5,000</option>
+                            <option>$5,000 - $10,000</option>
+                            <option>$10,000+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-duration">Project Duration</label>
+                        <select id="job-duration">
+                            <option>Select Duration</option>
+                            <option>Less than 1 month</option>
+                            <option>1-3 months</option>
+                            <option>3-6 months</option>
+                            <option>6+ months</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post Job</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="logo">WorkConnect</div>
+        <p>The leading platform connecting talented professionals with great opportunities</p>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Contact Us</a>
+            <a href="#">FAQ</a>
+        </div>
+        <p>&copy; 2025 WorkConnect. All rights reserved.</p>
+    </footer>
+    
+    <!-- Sign In Modal (alternative approach) -->
+    <div id="sign-in-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="auth-container" style="margin: 0; box-shadow: none;">
+                <div class="auth-header">
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to access your WorkConnect account</p>
+                </div>
+                
+                <div class="auth-options">
+                    <div class="auth-option">
+                        <img src="/api/placeholder/20/20" alt="Google icon"> 
+                        Continue with Google
+                    </div>
+                    <div class="auth-option">
+                        <img src="/api/placeholder/20/20" alt="LinkedIn icon"> 
+                        Continue with LinkedIn
+                    </div>
+                </div>
+                
+                <div class="auth-divider">
+                    <span>or sign in with email</span>
+                </div>
+                
+                <form class="auth-form">
+                    <div class="form-group">
+                        <label for="modal-email">Email Address</label>
+                        <input type="email" id="modal-email" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modal-password">Password</label>
+                        <input type="password" id="modal-password" placeholder="Enter your password" required>
+                        <div class="forgot-password">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                    </div>
+                    
+                    <div class="remember-me">
+                        <input type="checkbox" id="modal-remember">
+                        <label for="modal-remember">Remember me for 30 days</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" id="modal-go-to-register">Register now</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple tab functionality
+        document.querySelectorAll('.tabs .tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabsContainer = this.parentElement;
+                tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    
+        // Sign-in page functionality
+        const signInBtn = document.getElementById('sign-in-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const mainContent = document.getElementById('main-content');
+        const signInPage = document.getElementById('sign-in-page');
+        const goToRegister = document.getElementById('go-to-register');
+        const signInModal = document.getElementById('sign-in-modal');
+        const closeModal = document.querySelector('.close-modal');
+    
+        signInBtn.addEventListener('click', function() {
+            mainContent.style.display = 'none';
+            signInPage.style.display = 'block';
+        });
+    
+        goToRegister.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Registration form would appear here');
+        });
+    
+        document.querySelector('.logo').addEventListener('click', function() {
+            mainContent.style.display = 'block';
+            signInPage.style.display = 'none';
+        });
+    
+        // Post a Job functionality
+        const postJobForm = document.querySelector('#post .tab-content.active form');
+        const jobListings = document.getElementById('job-listings');
+    
+        postJobForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent page refresh
+    
+            // Get form values
+            const jobTitle = document.getElementById('job-title').value;
+            const jobDescription = document.getElementById('job-description').value;
+            const jobSkills = document.getElementById('job-skills').value;
+            const jobBudget = document.getElementById('job-budget').value;
+            const jobDuration = document.getElementById('job-duration').value;
+    
+            // Validate inputs (basic check)
+            if (!jobTitle || !jobDescription || !jobSkills || jobBudget === 'Select Budget Range' || jobDuration === 'Select Duration') {
+                alert('Please fill out all fields before posting a job.');
+                return;
+            }
+    
+            // Create new job card
+            const newJobCard = document.createElement('div');
+            newJobCard.classList.add('card');
+            newJobCard.innerHTML = `
+                <div class="card-header">
+                    <h3>${jobTitle}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Budget:</strong> ${jobBudget}</p>
+                    <p><strong>Duration:</strong> ${jobDuration}</p>
+                    <p><strong>Skills:</strong> ${jobSkills}</p>
+                    <p>${jobDescription}</p>
+                </div>
+                <div class="card-footer">
+                    <span>Posted just now</span>
+                    <button class="btn btn-primary">Apply Now</button>
+                </div>
+            `;
+    
+            // Append to job listings
+            jobListings.appendChild(newJobCard);
+    
+            // Clear the form
+            postJobForm.reset();
+    
+            // Optional: Scroll to the job listings section
+            document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
+    
+            alert('Job posted successfully!');
+        });
+
+                // Save to localStorage
+        const jobs = JSON.parse(localStorage.getItem('jobs') || '[]');
+        jobs.push({ jobTitle, jobDescription, jobSkills, jobBudget, jobDuration });
+        localStorage.setItem('jobs', JSON.stringify(jobs));
+
+        
+    </script>
+</body>
+</html>
